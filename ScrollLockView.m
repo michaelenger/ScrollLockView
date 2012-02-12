@@ -30,12 +30,15 @@
 
 + (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view;
 - (void)setType:(ScrollLockViewType)type;
+- (void)wasHidden;
+- (void)wasShown;
 
 @end
 
 @implementation ScrollLockView
 
-@synthesize scrollView = _scrollView,
+@synthesize delegate = _delegate,
+            scrollView = _scrollView,
             lockThreshold = _lockThreshold,
             scrollOffset = _scrollOffset,
             type = _type;
@@ -104,13 +107,20 @@
 }
 
 - (void)hide:(BOOL)animated duration:(float)duration {
+    if ([self.delegate respondsToSelector:@selector(scrollView:willHide:)])
+        [self.delegate scrollView:self.scrollView willHide:self];
+
     CGPoint point = CGPointMake(0, 0);
     if (animated) {
         [UIView animateWithDuration:duration delay:0 options:0 animations:^{
             self.scrollView.contentOffset = point;
-        } completion:nil];
+        } completion:^(BOOL finished){
+            if (finished)
+                [self wasHidden];
+        }];
     } else {
         [self.scrollView setContentOffset:point animated:NO];
+        [self wasHidden];
     }
 }
 
@@ -119,13 +129,30 @@
 }
 
 - (void)show:(BOOL)animated duration:(float)duration {
+    if ([self.delegate respondsToSelector:@selector(scrollView:willShow:)])
+        [self.delegate scrollView:self.scrollView willShow:self];
+
     if (animated) {
         [UIView animateWithDuration:duration delay:0 options:0 animations:^{
             self.scrollView.contentOffset = self.scrollOffset;
-        } completion:nil];
+        } completion:^(BOOL finished){
+            if (finished)
+                [self wasShown];
+        }];
     } else {
         [self.scrollView setContentOffset:self.scrollOffset animated:NO];
+        [self wasShown];
     }
+}
+
+- (void)wasHidden {
+    if ([self.delegate respondsToSelector:@selector(scrollView:didHide:)])
+        [self.delegate scrollView:self.scrollView didHide:self];
+}
+
+- (void)wasShown {
+    if ([self.delegate respondsToSelector:@selector(scrollView:didShow:)])
+        [self.delegate scrollView:self.scrollView didShow:self];
 }
 
 #pragma mark Properties
@@ -198,6 +225,8 @@
 
             if (lockView) {
                 [scrollView setContentOffset:self.scrollOffset animated:NO];
+                if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])
+                    [self.delegate scrollView:self.scrollView didLockToView:self];
             }
         }
     }

@@ -33,8 +33,11 @@ typedef enum {
     ScrollLockViewTypeRight
 } ScrollLockViewType;
 
+@protocol ScrollLockViewDelegate;
+
 @interface ScrollLockView : UIView
 
+@property (strong, nonatomic) id<ScrollLockViewDelegate> delegate;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (assign, nonatomic) CGPoint lockThreshold;
 @property (assign, nonatomic, readonly) CGPoint scrollOffset;
@@ -49,5 +52,16 @@ typedef enum {
 - (void)hide:(BOOL)animated duration:(float)duration;
 - (void)show:(BOOL)animated;
 - (void)show:(BOOL)animated duration:(float)duration;
+
+@end
+
+@protocol ScrollLockViewDelegate <NSObject>
+
+@optional
+- (void)scrollView:(UIScrollView *)scrollView didHide:(ScrollLockView *)view;
+- (void)scrollView:(UIScrollView *)scrollView didLockToView:(ScrollLockView *)view;
+- (void)scrollView:(UIScrollView *)scrollView didShow:(ScrollLockView *)view;
+- (void)scrollView:(UIScrollView *)scrollView willHide:(ScrollLockView *)view;
+- (void)scrollView:(UIScrollView *)scrollView willShow:(ScrollLockView *)view;
 
 @end
