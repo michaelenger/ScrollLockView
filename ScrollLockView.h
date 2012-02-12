@@ -43,12 +43,12 @@ typedef enum {
 
 @interface ScrollLockView : UIView
 
-@property (strong, nonatomic) id<ScrollLockViewDelegate> delegate;
-@property (strong, nonatomic) UIScrollView *scrollView;
+@property (weak, nonatomic) id<ScrollLockViewDelegate> delegate;
 @property (assign, nonatomic) CGPoint lockThreshold;
 @property (assign, nonatomic, readonly) CGPoint scrollOffset;
-@property (assign, nonatomic, readonly) ScrollLockViewType type;
+@property (strong, nonatomic) UIScrollView *scrollView;
 @property (assign, nonatomic, readonly) ScrollLockViewState state;
+@property (assign, nonatomic, readonly) ScrollLockViewType type;
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;

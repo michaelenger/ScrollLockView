@@ -39,11 +39,11 @@
 @implementation ScrollLockView
 
 @synthesize delegate = _delegate,
-            scrollView = _scrollView,
             lockThreshold = _lockThreshold,
             scrollOffset = _scrollOffset,
-            type = _type,
-            state = _state;
+            scrollView = _scrollView,
+            state = _state,
+            type = _type;
 
 #pragma mark Constructors
 
