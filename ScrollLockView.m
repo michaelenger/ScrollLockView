@@ -39,4 +39,13 @@
     return object;
 }
 
++ (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view {
+    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, view.contentSize.height, size.width, size.height)];
+
+    object.scrollView = view;
+    [view addSubview:object];
+
+    return object;
+}
+
 @end

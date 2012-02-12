@@ -31,5 +31,6 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;
 
 @end
