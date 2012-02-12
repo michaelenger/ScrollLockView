@@ -33,6 +33,12 @@ typedef enum {
     ScrollLockViewTypeRight
 } ScrollLockViewType;
 
+typedef enum {
+    ScrollLockViewStateNormal = 0,
+	ScrollLockViewStateLocking,
+	ScrollLockViewStateLocked
+} ScrollLockViewState;
+
 @protocol ScrollLockViewDelegate;
 
 @interface ScrollLockView : UIView
@@ -42,6 +48,7 @@ typedef enum {
 @property (assign, nonatomic) CGPoint lockThreshold;
 @property (assign, nonatomic, readonly) CGPoint scrollOffset;
 @property (assign, nonatomic, readonly) ScrollLockViewType type;
+@property (assign, nonatomic, readonly) ScrollLockViewState state;
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;

@@ -29,6 +29,7 @@
 @interface ScrollLockView ()
 
 + (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view;
+- (void)setState:(ScrollLockViewState)state;
 - (void)setType:(ScrollLockViewType)type;
 - (void)wasHidden;
 - (void)wasShown;
@@ -41,7 +42,8 @@
             scrollView = _scrollView,
             lockThreshold = _lockThreshold,
             scrollOffset = _scrollOffset,
-            type = _type;
+            type = _type,
+            state = _state;
 
 #pragma mark Constructors
 
@@ -50,6 +52,7 @@
 
     object.scrollView = view;
     object.lockThreshold = frame.origin;
+    object.state = ScrollLockViewStateNormal;
     [view addSubview:object];
 
     return object;
@@ -146,11 +149,13 @@
 }
 
 - (void)wasHidden {
+    self.state = ScrollLockViewStateNormal;
     if ([self.delegate respondsToSelector:@selector(scrollView:didHide:)])
         [self.delegate scrollView:self.scrollView didHide:self];
 }
 
 - (void)wasShown {
+    self.state = ScrollLockViewStateLocked;
     if ([self.delegate respondsToSelector:@selector(scrollView:didShow:)])
         [self.delegate scrollView:self.scrollView didShow:self];
 }
@@ -190,6 +195,10 @@
     _scrollView = scrollView;
 }
 
+- (void)setState:(ScrollLockViewState)state {
+    _state = state;
+}
+
 - (void)setType:(ScrollLockViewType)type {
     _type = type;
 }
@@ -224,9 +233,15 @@
             }
 
             if (lockView) {
-                [scrollView setContentOffset:self.scrollOffset animated:NO];
-                if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])
-                    [self.delegate scrollView:self.scrollView didLockToView:self];
+                if (self.state != ScrollLockViewStateLocking) { // prevents double events
+                    self.state = ScrollLockViewStateLocking;
+                    [scrollView setContentOffset:self.scrollOffset animated:NO];
+                    if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])
+                        [self.delegate scrollView:self.scrollView didLockToView:self];
+                }
+            } else {
+                // Allow the user to scroll away from the view
+                self.state = ScrollLockViewStateNormal;
             }
         }
     }
