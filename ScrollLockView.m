@@ -36,7 +36,7 @@
 
 @synthesize scrollView = _scrollView;
 
-#pragma mark - Constructors
+#pragma mark Constructors
 
 + (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view {
     ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:frame];
@@ -83,5 +83,28 @@
 
     return object;
 }
+
+#pragma mark Properties
+
+- (void)setScrollView:(UIScrollView *)scrollView {
+    // Update content offset observation
+    if (_scrollView != nil) {
+        [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
+    }
+    if (scrollView != nil) {
+        [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    }
+
+    _scrollView = scrollView;
+}
+
+#pragma mark UIScrollView
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
+        NSLog(@"Scrolling...");
+    }
+}
+
 
 @end
