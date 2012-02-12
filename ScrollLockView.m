@@ -28,4 +28,15 @@
 
 @implementation ScrollLockView
 
+@synthesize scrollView = _scrollView;
+
++ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view {
+    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, -size.height, size.width, size.height)];
+
+    object.scrollView = view;
+    [view addSubview:object];
+
+    return object;
+}
+
 @end

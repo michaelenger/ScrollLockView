@@ -28,4 +28,8 @@
 
 @interface ScrollLockView : UIView
 
+@property (strong, nonatomic) UIScrollView *scrollView;
+
++ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
+
 @end
