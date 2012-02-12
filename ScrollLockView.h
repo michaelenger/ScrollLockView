@@ -37,6 +37,7 @@ typedef enum {
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (assign, nonatomic) CGPoint lockThreshold;
+@property (assign, nonatomic, readonly) CGPoint scrollOffset;
 @property (assign, nonatomic, readonly) ScrollLockViewType type;
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;

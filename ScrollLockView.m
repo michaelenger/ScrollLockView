@@ -37,6 +37,7 @@
 
 @synthesize scrollView = _scrollView,
             lockThreshold = _lockThreshold,
+            scrollOffset = _scrollOffset,
             type = _type;
 
 #pragma mark Constructors
@@ -98,6 +99,27 @@
 
 #pragma mark Properties
 
+- (CGPoint) scrollOffset {
+    CGPoint scrollOffset = self.lockThreshold;
+
+    switch (self.type) {
+        case ScrollLockViewTypeAbove:
+            scrollOffset.y = self.frame.origin.y;
+            break;
+        case ScrollLockViewTypeBelow:
+            scrollOffset.y = self.lockThreshold.y - (self.scrollView.contentSize.height > self.scrollView.bounds.size.height ? self.scrollView.contentSize.height : self.scrollView.bounds.size.height);
+            break;
+        case ScrollLockViewTypeLeft:
+            scrollOffset.x = self.frame.origin.x;
+            break;
+        case ScrollLockViewTypeRight:
+            scrollOffset.x = self.frame.size.width;
+            break;
+    }
+
+    return scrollOffset;
+}
+
 - (void)setScrollView:(UIScrollView *)scrollView {
     // Update content offset observation
     if (_scrollView != nil) {
@@ -126,37 +148,25 @@
 
             switch (self.type) {
                 case ScrollLockViewTypeAbove:
-                    if (contentOffset.y <= self.lockThreshold.y) {
-                        contentOffset.y = self.frame.origin.y;
-                        lockView = YES;
-                    };
+                    lockView = (contentOffset.y <= self.lockThreshold.y);
                     break;
                 case ScrollLockViewTypeBelow:
                     contentOffset.y += (scrollView.contentSize.height > scrollView.bounds.size.height ? scrollView.contentSize.height : scrollView.bounds.size.height);
-                    if (contentOffset.y >= self.lockThreshold.y) {
-                        contentOffset.y = self.lockThreshold.y - (scrollView.contentSize.height > scrollView.bounds.size.height ? scrollView.contentSize.height : scrollView.bounds.size.height);
-                        lockView = YES;
-                    }
+                    lockView = (contentOffset.y >= self.lockThreshold.y);
                     break;
                 case ScrollLockViewTypeLeft:
-                    if (contentOffset.x <= self.lockThreshold.x) {
-                        contentOffset.x = self.frame.origin.x;
-                        lockView = YES;
-                    };
+                    lockView = (contentOffset.x <= self.lockThreshold.x);
                     break;
                 case ScrollLockViewTypeRight:
                     contentOffset.x += scrollView.bounds.size.width;
-                    if (contentOffset.x >= self.lockThreshold.x) {
-                        contentOffset.x = self.frame.size.width;
-                        lockView = YES;
-                    };
+                    lockView = (contentOffset.x >= self.lockThreshold.x);
                     break;
                 default:
                     @throw [NSException exceptionWithName: @"TypeException" reason: @"Incorrect type specified for ScrollLockViewType" userInfo: nil];
             }
 
             if (lockView) {
-                [scrollView setContentOffset:contentOffset animated:NO];
+                [scrollView setContentOffset:self.scrollOffset animated:NO];
             }
         }
     }
