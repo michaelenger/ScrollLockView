@@ -26,27 +26,42 @@
 
 #import "ScrollLockView.h"
 
+@interface ScrollLockView ()
+
++ (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view;
+
+@end
+
 @implementation ScrollLockView
 
 @synthesize scrollView = _scrollView;
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view {
-    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, -size.height, size.width, size.height)];
+#pragma mark - Constructors
+
++ (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view {
+    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:frame];
 
     object.scrollView = view;
     [view addSubview:object];
-    view.alwaysBounceVertical = YES;
+
+    return object;
+}
+
++ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(0.0, -size.height, size.width, size.height);
+
+    ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.scrollView.alwaysBounceVertical = YES;
 
     return object;
 }
 
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view {
     float y = (view.contentSize.height > view.bounds.size.height ? view.contentSize.height : view.bounds.size.height);
-    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, y, size.width, size.height)];
+    CGRect frame = CGRectMake(0.0, y, size.width, size.height);
 
-    object.scrollView = view;
-    [view addSubview:object];
-    view.alwaysBounceVertical = YES;
+    ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.scrollView.alwaysBounceVertical = YES;
 
     return object;
 }
