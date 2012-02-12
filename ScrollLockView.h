@@ -26,9 +26,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    ScrollLockViewTypeAbove = 0,
+	ScrollLockViewTypeBelow,
+	ScrollLockViewTypeLeft,
+    ScrollLockViewTypeRight
+} ScrollLockViewType;
+
 @interface ScrollLockView : UIView
 
 @property (strong, nonatomic) UIScrollView *scrollView;
+@property (assign, nonatomic, readonly) ScrollLockViewType type;
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;

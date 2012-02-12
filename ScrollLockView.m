@@ -29,12 +29,14 @@
 @interface ScrollLockView ()
 
 + (ScrollLockView *)viewWithFrame:(CGRect)frame inView:(UIScrollView *)view;
+- (void)setType:(ScrollLockViewType)type;
 
 @end
 
 @implementation ScrollLockView
 
-@synthesize scrollView = _scrollView;
+@synthesize scrollView = _scrollView,
+            type = _type;
 
 #pragma mark Constructors
 
@@ -51,6 +53,7 @@
     CGRect frame = CGRectMake(0.0, -size.height, size.width, size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.type = ScrollLockViewTypeAbove;
     object.scrollView.alwaysBounceVertical = YES;
 
     return object;
@@ -61,6 +64,7 @@
     CGRect frame = CGRectMake(0.0, y, size.width, size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.type = ScrollLockViewTypeBelow;
     object.scrollView.alwaysBounceVertical = YES;
 
     return object;
@@ -70,6 +74,7 @@
     CGRect frame = CGRectMake(-size.width, 0.0, size.width, size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.type = ScrollLockViewTypeLeft;
     object.scrollView.alwaysBounceHorizontal = YES;
 
     return object;
@@ -79,6 +84,7 @@
     CGRect frame = CGRectMake(view.bounds.size.width, 0.0, size.width, size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.type = ScrollLockViewTypeRight;
     object.scrollView.alwaysBounceHorizontal = YES;
 
     return object;
@@ -96,6 +102,10 @@
     }
 
     _scrollView = scrollView;
+}
+
+- (void)setType:(ScrollLockViewType)type {
+    _type = type;
 }
 
 #pragma mark UIScrollView
