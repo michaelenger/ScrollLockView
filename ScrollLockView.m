@@ -35,15 +35,18 @@
 
     object.scrollView = view;
     [view addSubview:object];
+    view.alwaysBounceVertical = YES;
 
     return object;
 }
 
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view {
-    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, view.contentSize.height, size.width, size.height)];
+    float y = (view.contentSize.height > view.bounds.size.height ? view.contentSize.height : view.bounds.size.height);
+    ScrollLockView *object = [[ScrollLockView alloc] initWithFrame:CGRectMake(0.0, y, size.width, size.height)];
 
     object.scrollView = view;
     [view addSubview:object];
+    view.alwaysBounceVertical = YES;
 
     return object;
 }
