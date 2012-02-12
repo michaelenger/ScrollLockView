@@ -66,4 +66,22 @@
     return object;
 }
 
++ (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(-size.width, 0.0, size.width, size.height);
+
+    ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.scrollView.alwaysBounceHorizontal = YES;
+
+    return object;
+}
+
++ (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(view.bounds.size.width, 0.0, size.width, size.height);
+
+    ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
+    object.scrollView.alwaysBounceHorizontal = YES;
+
+    return object;
+}
+
 @end

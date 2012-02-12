@@ -32,5 +32,7 @@
 
 + (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
 + (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view;
 
 @end
