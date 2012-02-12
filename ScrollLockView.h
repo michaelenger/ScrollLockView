@@ -45,4 +45,9 @@ typedef enum {
 + (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view;
 + (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view;
 
+- (void)hide:(BOOL)animated;
+- (void)hide:(BOOL)animated duration:(float)duration;
+- (void)show:(BOOL)animated;
+- (void)show:(BOOL)animated duration:(float)duration;
+
 @end

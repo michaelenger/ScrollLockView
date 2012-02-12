@@ -97,6 +97,37 @@
     return object;
 }
 
+#pragma mark Show/hide
+
+- (void)hide:(BOOL)animated {
+    [self hide:animated duration:0.5];
+}
+
+- (void)hide:(BOOL)animated duration:(float)duration {
+    CGPoint point = CGPointMake(0, 0);
+    if (animated) {
+        [UIView animateWithDuration:duration delay:0 options:0 animations:^{
+            self.scrollView.contentOffset = point;
+        } completion:nil];
+    } else {
+        [self.scrollView setContentOffset:point animated:NO];
+    }
+}
+
+- (void)show:(BOOL)animated {
+    [self show:animated duration:0.5];
+}
+
+- (void)show:(BOOL)animated duration:(float)duration {
+    if (animated) {
+        [UIView animateWithDuration:duration delay:0 options:0 animations:^{
+            self.scrollView.contentOffset = self.scrollOffset;
+        } completion:nil];
+    } else {
+        [self.scrollView setContentOffset:self.scrollOffset animated:NO];
+    }
+}
+
 #pragma mark Properties
 
 - (CGPoint) scrollOffset {
