@@ -136,6 +136,7 @@
         [self.delegate scrollView:self.scrollView willShow:self];
 
     if (animated) {
+        self.state = ScrollLockViewStateLocking;
         [UIView animateWithDuration:duration delay:0 options:0 animations:^{
             self.scrollView.contentOffset = self.scrollOffset;
         } completion:^(BOOL finished){
@@ -238,10 +239,12 @@
                     [scrollView setContentOffset:self.scrollOffset animated:NO];
                     if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])
                         [self.delegate scrollView:self.scrollView didLockToView:self];
+                    self.state = ScrollLockViewStateLocked;
                 }
             } else {
-                // Allow the user to scroll away from the view
-                self.state = ScrollLockViewStateNormal;
+                if (self.state != ScrollLockViewStateLocking && scrollView.contentOffset.x == 0 && scrollView.contentOffset.y == 0)
+                    // Allow the user to scroll away from the view
+                    self.state = ScrollLockViewStateNormal;
             }
         }
     }
