@@ -50,10 +50,10 @@ typedef enum {
 @property (assign, nonatomic, readonly) ScrollLockViewState state;
 @property (assign, nonatomic, readonly) ScrollLockViewType type;
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view;
-+ (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view;
-+ (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view;
-+ (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithHeight:(float)height aboveView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithHeight:(float)height belowView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithWidth:(float)width leftOfView:(UIScrollView *)view;
++ (ScrollLockView *)viewWithWidth:(float)width rightOfView:(UIScrollView *)view;
 
 - (void)hide:(BOOL)animated;
 - (void)hide:(BOOL)animated duration:(float)duration;

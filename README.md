@@ -12,8 +12,7 @@ Here is a small example of attaching the view above a text view.
     textView.text = @"Why, hello there!";
     
     // The lock view will be full width and 100px high
-    CGSize lockViewSize = CGSizeMake(self.view.bounds.size.width, 100.0);
-    ScrollLockView *lockView = [ScrollLockView viewWithSize:lockViewSize aboveView:textView];
+    ScrollLockView *lockView = [ScrollLockView viewWithHeight:100.0 aboveView:textView];
     
     // Make it red so we can see it
     lockView.backgroundColor = [UIColor redColor];
@@ -72,36 +71,36 @@ The type of the object, which defines which side (above, below, left or right) t
 
 Creates and initializes a view to be above a specified scroll-view.
 
-```+ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view```
+```+ (ScrollLockView *)viewWithHeight:(float)size aboveView:(UIScrollView *)view```
 
- * **size** Size of the view to create
+ * **height** Height of the view to create
  * **view** Scroll-view to attach to
 
 #### viewWithSize:belowView:
 
 Creates and initializes a view to be below a specified scroll-view.
 
-```+ (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view```
+```+ (ScrollLockView *)viewWithHeight:(float)size belowView:(UIScrollView *)view```
 
- * **size** Size of the view to create
+ * **height** Height of the view to create
  * **view** Scroll-view to attach to
 
 #### viewWithSize:leftOfView:
 
 Creates and initializes a view to be to the left of a specified scroll-view.
 
-```+ (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view```
+```+ (ScrollLockView *)viewWithWidth:(float)size leftOfView:(UIScrollView *)view```
 
- * **size** Size of the view to create
+ * **width** Width of the view to create
  * **view** Scroll-view to attach to
 
 #### viewWithSize:rightOfView:
 
 Creates and initializes a view to be to the right of a specified scroll-view.
 
-```+ (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view```
+```+ (ScrollLockView *)viewWithWidth:(float)size rightOfView:(UIScrollView *)view```
 
- * **size** Size of the view to create
+ * **width** Width of the view to create
  * **view** Scroll-view to attach to
 
 ### Instance Methods

@@ -58,8 +58,8 @@
     return object;
 }
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size aboveView:(UIScrollView *)view {
-    CGRect frame = CGRectMake(0.0, -size.height, size.width, size.height);
++ (ScrollLockView *)viewWithHeight:(float)height aboveView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(0.0, -height, view.frame.size.width, height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
     object.type = ScrollLockViewTypeAbove;
@@ -69,9 +69,9 @@
     return object;
 }
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size belowView:(UIScrollView *)view {
++ (ScrollLockView *)viewWithHeight:(float)height belowView:(UIScrollView *)view {
     float y = (view.contentSize.height > view.bounds.size.height ? view.contentSize.height : view.bounds.size.height);
-    CGRect frame = CGRectMake(0.0, y, size.width, size.height);
+    CGRect frame = CGRectMake(0.0, y, view.frame.size.width, height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
     object.type = ScrollLockViewTypeBelow;
@@ -81,8 +81,8 @@
     return object;
 }
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size leftOfView:(UIScrollView *)view {
-    CGRect frame = CGRectMake(-size.width, 0.0, size.width, size.height);
++ (ScrollLockView *)viewWithWidth:(float)width leftOfView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(-width, 0.0, width, view.frame.size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
     object.type = ScrollLockViewTypeLeft;
@@ -92,8 +92,8 @@
     return object;
 }
 
-+ (ScrollLockView *)viewWithSize:(CGSize)size rightOfView:(UIScrollView *)view {
-    CGRect frame = CGRectMake(view.bounds.size.width, 0.0, size.width, size.height);
++ (ScrollLockView *)viewWithWidth:(float)width rightOfView:(UIScrollView *)view {
+    CGRect frame = CGRectMake(view.bounds.size.width, 0.0, width, view.frame.size.height);
 
     ScrollLockView *object = [ScrollLockView viewWithFrame:frame inView:view];
     object.type = ScrollLockViewTypeRight;
