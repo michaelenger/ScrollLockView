@@ -235,6 +235,9 @@
 
             if (lockView) {
                 if (self.state != ScrollLockViewStateLocking) { // prevents double events
+                    if ([self.delegate respondsToSelector:@selector(scrollView:willLockToView:)])
+                        if(![self.delegate scrollView:self.scrollView willLockToView:self])
+                            return;
                     self.state = ScrollLockViewStateLocking;
                     [scrollView setContentOffset:self.scrollOffset animated:NO];
                     if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])

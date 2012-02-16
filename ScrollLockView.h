@@ -69,6 +69,7 @@ typedef enum {
 - (void)scrollView:(UIScrollView *)scrollView didLockToView:(ScrollLockView *)view;
 - (void)scrollView:(UIScrollView *)scrollView didShow:(ScrollLockView *)view;
 - (void)scrollView:(UIScrollView *)scrollView willHide:(ScrollLockView *)view;
+- (BOOL)scrollView:(UIScrollView *)scrollView willLockToView:(ScrollLockView *)view;
 - (void)scrollView:(UIScrollView *)scrollView willShow:(ScrollLockView *)view;
 
 @end
