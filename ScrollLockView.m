@@ -40,7 +40,6 @@
 
 @synthesize delegate = _delegate,
             lockThreshold = _lockThreshold,
-            scrollOffset = _scrollOffset,
             scrollView = _scrollView,
             state = _state,
             type = _type;
@@ -113,16 +112,16 @@
     if ([self.delegate respondsToSelector:@selector(scrollView:willHide:)])
         [self.delegate scrollView:self.scrollView willHide:self];
 
-    CGPoint point = CGPointMake(0, 0);
     if (animated) {
         [UIView animateWithDuration:duration delay:0 options:0 animations:^{
-            self.scrollView.contentOffset = point;
+            self.scrollView.contentInset = UIEdgeInsetsZero;
         } completion:^(BOOL finished){
-            if (finished)
+            if (finished) {
                 [self wasHidden];
+            }
         }];
     } else {
-        [self.scrollView setContentOffset:point animated:NO];
+        self.scrollView.contentInset = UIEdgeInsetsZero;
         [self wasHidden];
     }
 }
@@ -138,13 +137,14 @@
     if (animated) {
         self.state = ScrollLockViewStateLocking;
         [UIView animateWithDuration:duration delay:0 options:0 animations:^{
-            self.scrollView.contentOffset = self.scrollOffset;
+            self.scrollView.contentInset = self.scrollEdgeInsets;
         } completion:^(BOOL finished){
-            if (finished)
+            if (finished) {
                 [self wasShown];
+            }
         }];
     } else {
-        [self.scrollView setContentOffset:self.scrollOffset animated:NO];
+        self.scrollView.contentInset = self.scrollEdgeInsets;
         [self wasShown];
     }
 }
@@ -163,25 +163,28 @@
 
 #pragma mark Properties
 
-- (CGPoint) scrollOffset {
-    CGPoint scrollOffset = self.lockThreshold;
-
+- (UIEdgeInsets) scrollEdgeInsets {
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    
     switch (self.type) {
         case ScrollLockViewTypeAbove:
-            scrollOffset.y = self.frame.origin.y;
+            inset.top = self.frame.size.height;
             break;
         case ScrollLockViewTypeBelow:
-            scrollOffset.y = self.lockThreshold.y - (self.scrollView.contentSize.height > self.scrollView.bounds.size.height ? self.scrollView.contentSize.height : self.scrollView.bounds.size.height);
+            if (self.scrollView.contentSize.height > self.scrollView.bounds.size.height)
+                inset.bottom = self.frame.size.height;
+            else
+                inset.top = -self.frame.size.height;
             break;
         case ScrollLockViewTypeLeft:
-            scrollOffset.x = self.frame.origin.x;
+            inset.left = self.frame.size.width;
             break;
         case ScrollLockViewTypeRight:
-            scrollOffset.x = self.frame.size.width;
+            inset.right = self.frame.size.width;
             break;
     }
-
-    return scrollOffset;
+    
+    return inset;
 }
 
 - (void)setScrollView:(UIScrollView *)scrollView {
@@ -239,15 +242,17 @@
                         if(![self.delegate scrollView:self.scrollView willLockToView:self])
                             return;
                     self.state = ScrollLockViewStateLocking;
-                    [scrollView setContentOffset:self.scrollOffset animated:NO];
+                    scrollView.contentInset = self.scrollEdgeInsets;
                     if ([self.delegate respondsToSelector:@selector(scrollView:didLockToView:)])
                         [self.delegate scrollView:self.scrollView didLockToView:self];
                     self.state = ScrollLockViewStateLocked;
                 }
             } else {
-                if (self.state != ScrollLockViewStateLocking && scrollView.contentOffset.x == 0 && scrollView.contentOffset.y == 0)
+                if (self.state != ScrollLockViewStateLocking) {
                     // Allow the user to scroll away from the view
                     self.state = ScrollLockViewStateNormal;
+                    self.scrollView.contentInset = UIEdgeInsetsZero;
+                }
             }
         }
     }

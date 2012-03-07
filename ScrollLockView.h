@@ -45,7 +45,7 @@ typedef enum {
 
 @property (weak, nonatomic) id<ScrollLockViewDelegate> delegate;
 @property (assign, nonatomic) CGPoint lockThreshold;
-@property (assign, nonatomic, readonly) CGPoint scrollOffset;
+@property (assign, nonatomic, readonly) UIEdgeInsets scrollEdgeInsets;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (assign, nonatomic, readonly) ScrollLockViewState state;
 @property (assign, nonatomic, readonly) ScrollLockViewType type;
