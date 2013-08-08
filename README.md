@@ -1,28 +1,44 @@
 # ScrollLockView
 
-A view that attaches itself to a UIScrollView and locks the scroll when visible.
-Inspired by: https://github.com/iStopped/PullToRefreshView
+A view that attaches itself to a `UIScrollView` and locks itself in place when the view is scrolled to reveal it.
 
-## Getting Started
+_Inspired by: https://github.com/iStopped/PullToRefreshView_
 
-Here is a small example of attaching the view above a text view.
+![Example](https://raw.github.com/michaelenger/ScrollLockView/master/example.png)
 
-    // A full-sized text view
-    UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
-    textView.text = @"Why, hello there!";
+## Usage
+
+1. Download/clone the code: `git clone git@github.com:michaelenger/ScrollLockView.git`
+
+2. Add `#import "ScrollLockView.h"` to the head of your ViewController class.
+
+3. Create a `ScrollLockView` object and attach it to a scrollable view.
+   ```objective-c
+   - (id)init: {
+   // ...
+
+   // A full-sized text view
+   UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+   textView.text = @"Why, hello there!";
     
-    // The lock view will be full width and 100px high
-    ScrollLockView *lockView = [ScrollLockView viewWithHeight:100.0 aboveView:textView];
+   // The lock view will be full width and 100px high.
+   // It will also be attached above the scrollable view,
+   // meaning the scrollable view needs to be scrolled down.
+   ScrollLockView *lockView = [ScrollLockView viewWithHeight:100.0 aboveView:textView];
     
-    // Make it red so we can see it
-    lockView.backgroundColor = [UIColor redColor];
+   // Make it red so we can see it
+   lockView.backgroundColor = [UIColor redColor];
     
-    // Add some buttons and junk here...
-    //[lockView addSubview:[UIButton ...]];
-    //[lockView addSubview:[UILabel ...]];
+   // Add some buttons and junk
+   //[lockView addSubview:[UIButton ...]];
+   //[lockView addSubview:[UILabel ...]];
     
-    // Add the scroll view to the main view
-    [self.view addSubview:textView];
+   // Add the scroll view to the main view
+   [self.view addSubview:textView];
+
+   // ...
+   }
+   ```
 
 ## ScrollLockView Class Reference
 
